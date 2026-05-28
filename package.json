@@ -1,0 +1,17 @@
+{
+  "name": "realworld-angular-lhci-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lhci/server": "^0.15.1",
+    "pg": "^8.21.0",
+    "pg-hstore": "^2.3.4"
+  }
+}
