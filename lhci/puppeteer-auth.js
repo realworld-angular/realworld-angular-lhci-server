@@ -83,30 +83,36 @@ async function resolvePizzeriaId(page) {
 }
 
 /**
- * Runs before each Lighthouse audit to set the correct auth session (and cart when needed).
+ * Runs before each URL's Lighthouse runs. LHCI passes a Browser, not a Page.
  *
- * @param {import('puppeteer').Page} page
+ * @param {import('puppeteer').Browser} browser
  * @param {{ url: string }} context
  */
-module.exports = async (page, context) => {
+module.exports = async (browser, context) => {
   const pathname = new URL(context.url).pathname;
   const persona = getPersonaForPath(pathname);
   const setup = getSetupForPath(pathname);
 
-  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+  const page = await browser.newPage();
 
-  if (persona === 'guest') {
-    await logout(page);
-    return;
-  }
+  try {
+    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
 
-  await login(page, persona);
-
-  if (setup === 'cart') {
-    const pizzeriaId = await resolvePizzeriaId(page);
-    if (!pizzeriaId) {
-      throw new Error('Could not resolve a pizzeria id for checkout cart setup');
+    if (persona === 'guest') {
+      await logout(page);
+      return;
     }
-    await ensureCartWithItem(page, pizzeriaId);
+
+    await login(page, persona);
+
+    if (setup === 'cart') {
+      const pizzeriaId = await resolvePizzeriaId(page);
+      if (!pizzeriaId) {
+        throw new Error('Could not resolve a pizzeria id for checkout cart setup');
+      }
+      await ensureCartWithItem(page, pizzeriaId);
+    }
+  } finally {
+    await page.close();
   }
 };

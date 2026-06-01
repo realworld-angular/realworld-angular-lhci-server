@@ -114,6 +114,8 @@ LHCI runs `puppeteer-auth.js` **before each URL**. The script:
 4. **Customer / admin** — calls `POST /api/auth/login` with credentials from `lhci/constants.cjs` (seeded demo users; overridable via env).
 5. **Cart setup** (`setup: 'cart'`) — after login, opens a pizzeria detail page, adds one pizza via the UI (order modal), so `/checkout/*` routes pass the `cartNotEmptyGuard`.
 
+LHCI invokes the script as `async (browser, context) => …` — create a page with `browser.newPage()`, then `page.close()` when done so Lighthouse can open its own tab. Auth cookies persist on the shared browser (`disableStorageReset: true`).
+
 Auth uses the real API (`LHCI_API_BASE_URL`, default `https://api.realworldangular.org`) with `credentials: 'include'`, matching how the Angular app stores the `access_token` cookie.
 
 ### 4. Collection settings (`lighthouserc.cjs`)

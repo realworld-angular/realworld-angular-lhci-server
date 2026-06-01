@@ -26,6 +26,7 @@ module.exports = {
       settings: {
         preset: 'desktop',
         skipAudits: ['bf-cache'],
+        disableStorageReset: true,
       },
     },
     upload: {
