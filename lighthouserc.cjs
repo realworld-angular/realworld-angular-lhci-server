@@ -32,9 +32,8 @@ module.exports = {
     upload: {
       target: 'lhci',
       serverBaseUrl:
-        process.env.LHCI_SERVER_BASE_URL ??
         'https://realworld-angular-lhci-server-production.up.railway.app/',
-      token: process.env.LHCI_BUILD_TOKEN,
+      token: process.env.LHCI_TOKEN,
     },
   },
 };
