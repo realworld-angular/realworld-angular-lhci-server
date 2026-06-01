@@ -1,0 +1,64 @@
+name: Lighthouse CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      report_name:
+        description: Label shown for this build on the LHCI server (commit message)
+        required: true
+        type: string
+      number_of_runs:
+        description: Lighthouse runs per URL (median across runs)
+        required: false
+        default: '3'
+        type: string
+      upload:
+        description: Upload results to the LHCI server after collect
+        required: false
+        default: true
+        type: boolean
+
+concurrency:
+  group: lhci-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    name: Audit Realworld Angular
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Collect and upload
+        if: inputs.upload
+        run: pnpm lhci:autorun
+        env:
+          LHCI_NUMBER_OF_RUNS: ${{ inputs.number_of_runs }} 
+          LHCI_BUILD_TOKEN: ${{ secrets.LHCI_BUILD_TOKEN }}
+          LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ inputs.report_name }}
+          LHCI_BUILD_CONTEXT__AUTHOR: ${{ github.actor }}
+          LHCI_BUILD_CONTEXT__EXTERNAL_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - name: Collect only
+        if: ${{ !inputs.upload }}
+        run: pnpm lhci:collect
+        env:
+          LHCI_NUMBER_OF_RUNS: ${{ inputs.number_of_runs }}
+          LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ inputs.report_name }}

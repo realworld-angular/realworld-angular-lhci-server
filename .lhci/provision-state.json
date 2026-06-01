@@ -1,0 +1,16 @@
+{
+  "provisionedAt": "2026-06-01T10:41:14.543Z",
+  "apiBaseUrl": "https://api.realworldangular.org",
+  "pizzeriaId": "cmpdsqx7q00010ltuugk1r3c2",
+  "orderId": "cmpv2w1th00060l1nc6rk68nb",
+  "users": {
+    "customer": {
+      "email": "lhci-1780310473326-fbe80a3dfe7ddac3@lhci.invalid",
+      "password": "LhBv0JSlpcHTIq9mK75GHXAw9!"
+    },
+    "admin": {
+      "email": "lhci-1780310473328-49f9a363a0b9d605@lhci.invalid",
+      "password": "LhbaqZ6SVqZtPhq9JwXqRdCQ9!"
+    }
+  }
+}

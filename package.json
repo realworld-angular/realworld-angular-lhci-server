@@ -4,11 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lhci:collect": "lhci collect",
+    "lhci:upload": "lhci upload",
+    "lhci:autorun": "lhci autorun",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1"
+  },
   "dependencies": {
     "@lhci/server": "^0.15.1",
     "pg": "^8.21.0",
