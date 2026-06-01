@@ -18,6 +18,7 @@ module.exports = {
     collect: {
       url: loadUrls(),
       numberOfRuns: Number(process.env.LHCI_NUMBER_OF_RUNS ?? 3),
+      chromePath: process.env.CHROME_PATH,
       puppeteerScript: './lhci/puppeteer-auth.js',
       puppeteerLaunchOptions: {
         args: ['--no-sandbox', '--disable-setuid-sandbox'],

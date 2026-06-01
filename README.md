@@ -55,6 +55,15 @@ pnpm lhci:autorun
 
 The job audits production (`www.realworldangular.org` / `api.realworldangular.org`) using the seeded demo accounts documented below. Expect roughly 1–2 hours for a full run (18 URLs × multiple Lighthouse runs each).
 
+GitHub runners do not include Chrome by default. The workflow installs Chromium via Puppeteer (`puppeteer` devDependency + `puppeteer browsers install chrome`) and sets `CHROME_PATH` for Lighthouse and the auth script.
+
+Locally, after `pnpm install`, run once:
+
+```bash
+pnpm exec puppeteer browsers install chrome
+export CHROME_PATH="$(pnpm exec node -p "require('puppeteer').executablePath()")"
+```
+
 ## Audit logic
 
 Audits are driven by `lighthouserc.cjs` and the `lhci/` helpers. The flow is:

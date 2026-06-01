@@ -46,6 +46,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Install Chromium for Lighthouse
+        run: |
+          pnpm exec puppeteer browsers install chrome
+          echo "CHROME_PATH=$(pnpm exec node -p "require('puppeteer').executablePath()")" >> "$GITHUB_ENV"
+
       - name: Collect and upload
         if: inputs.upload
         run: pnpm lhci:autorun
