@@ -33,7 +33,7 @@ module.exports = {
       target: 'lhci',
       serverBaseUrl:
         'https://realworld-angular-lhci-server-production.up.railway.app/',
-      token: process.env.LHCI_TOKEN,
+      token: process.env.LHCI_BUILD_TOKEN,
     },
   },
 };
