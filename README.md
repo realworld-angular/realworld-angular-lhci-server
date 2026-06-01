@@ -57,6 +57,8 @@ The job audits production (`www.realworldangular.org` / `api.realworldangular.or
 
 GitHub runners do not include Chrome by default. The workflow installs Chromium via Puppeteer (`puppeteer` devDependency + `puppeteer browsers install chrome`) and sets `CHROME_PATH` for Lighthouse and the auth script.
 
+pnpm 10+ blocks install scripts by default. This repo allowlists Puppeteer in [`pnpm-workspace.yaml`](pnpm-workspace.yaml) (`allowBuilds.puppeteer: true`), which avoids `ERR_PNPM_IGNORED_BUILDS` in CI. If you add other native deps later, run `pnpm approve-builds` and commit the updated file.
+
 Locally, after `pnpm install`, run once:
 
 ```bash
