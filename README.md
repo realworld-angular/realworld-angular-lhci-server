@@ -11,15 +11,18 @@ The Angular app lives in `../realworld-angular`. This folder only contains the s
 
 ```bash
 pnpm install
-pnpm lhci:autorun   # collect + upload
+pnpm lhci:autorun   # resolve URLs, collect, upload
 ```
 
 Or step by step:
 
 ```bash
+pnpm lhci:prepare   # fetch API + write .lhci/urls.json
 pnpm lhci:collect
 pnpm lhci:upload    # requires LHCI_BUILD_TOKEN
 ```
+
+`lhci:prepare` is required because `lhci autorun` loads `lighthouserc.cjs` **synchronously** — it cannot use an async config export and would otherwise look for a local `dist/` folder. URL list is written to `.lhci/urls.json` first.
 
 `@lhci/cli` is a dev dependency; the server runtime uses `@lhci/server` (see `index.js`).
 
@@ -82,7 +85,7 @@ Paths with `{pizzeriaId}` or `{orderId}` are templates; they are expanded when U
 
 ### 2. URL resolution (`lhci/resolve-urls.cjs`)
 
-Before collection starts, `buildUrls()`:
+Before collection starts, `pnpm lhci:prepare` runs `buildUrls()` and writes `.lhci/urls.json`. Then `lighthouserc.cjs` loads that list. The resolver:
 
 - Fetches the public pizzeria list from the API and picks the first pizzeria that has at least one pizza (for `/pizzerias/{pizzeriaId}`).
 - Uses the stable seeded order id `seed-order-delivered` for `/orders/{orderId}` (owned by the demo customer in production seed data).
@@ -182,6 +185,7 @@ realworld-angular-lhci-server/
 ├── lhci/
 │   ├── constants.cjs     # Base URLs + demo credentials
 │   ├── routes.cjs          # Route catalog + persona mapping
+│   ├── prepare-config.cjs  # Write .lhci/urls.json (run before autorun)
 │   ├── resolve-urls.cjs    # Build full URL list for collect
 │   └── puppeteer-auth.js   # Pre-audit login / cart setup
 └── package.json

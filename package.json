@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lhci:collect": "lhci collect",
+    "lhci:prepare": "node lhci/prepare-config.cjs",
+    "lhci:collect": "pnpm lhci:prepare && lhci collect",
     "lhci:upload": "lhci upload",
-    "lhci:autorun": "lhci autorun",
+    "lhci:autorun": "pnpm lhci:prepare && lhci autorun",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
