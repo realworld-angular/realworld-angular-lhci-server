@@ -57,6 +57,7 @@ jobs:
         env:
           LHCI_NUMBER_OF_RUNS: ${{ inputs.number_of_runs }} 
           LHCI_BUILD_TOKEN: ${{ secrets.LHCI_BUILD_TOKEN }}
+          LHCI_BUILD_CONTEXT__HASH: ${{ github.run_id }}-${{ github.run_attempt }}
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ inputs.report_name }}
           LHCI_BUILD_CONTEXT__AUTHOR: ${{ github.actor }}
           LHCI_BUILD_CONTEXT__EXTERNAL_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
