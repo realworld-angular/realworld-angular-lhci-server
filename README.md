@@ -38,7 +38,7 @@ Triggered manually from **Actions → Lighthouse CI → Run workflow** (`workflo
 | `number_of_runs` | `3` | Passed to `LHCI_NUMBER_OF_RUNS` |
 | `upload` | `true` | `pnpm lhci:autorun` when on; `pnpm lhci:collect` only when off |
 
-The workflow also sets `LHCI_BUILD_CONTEXT__AUTHOR` (GitHub actor) and `LHCI_BUILD_CONTEXT__EXTERNAL_BUILD_URL` (link back to the Actions run) when uploading.
+The workflow also sets `LHCI_BUILD_CONTEXT__CURRENT_HASH` (unique per Actions run), `LHCI_BUILD_CONTEXT__AUTHOR` (GitHub actor), and `LHCI_BUILD_CONTEXT__EXTERNAL_BUILD_URL` (link back to the Actions run) when uploading.
 
 Locally, use the same variables before `pnpm lhci:autorun`:
 
@@ -184,6 +184,7 @@ To add or remove routes, edit `lhci/routes.cjs`. If you add placeholders, resolv
 | `LHCI_SERVER_BASE_URL` | Railway production URL | Upload target |
 | `LHCI_BUILD_TOKEN` | — | Required for upload (from LHCI server project) |
 | `LHCI_BUILD_CONTEXT__COMMIT_MESSAGE` | (from git / CI) | **Build label** in the LHCI server UI |
+| `LHCI_BUILD_CONTEXT__CURRENT_HASH` | (from git / CI) | Unique build hash; CI uses `run_id-run_attempt` |
 | `LHCI_BUILD_CONTEXT__AUTHOR` | (from git / CI) | Shown on the build |
 | `LHCI_BUILD_CONTEXT__EXTERNAL_BUILD_URL` | (optional) | Link from the build to your CI job |
 
